@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlaskApp</title>
+</head>
+<body>
+    <h1>Flaskでアプリを作成する</h1>
+    <!-- 辞書booksの要素を1つずつ取り出し、変数bookに代入 -->
+    {% for book in books %}
+        <ul>
+            <li>{{ book.id }}</li>
+            <li>{{ book.title }}</li>
+            <li>{{ book.price }}</li>
+            <li>{{ book.arrival_day }}</li>
+        </ul>
+    {% endfor %}
+    <a href="{{ url_for('form') }}">フォーム画面</a>
+</body>
+</html>

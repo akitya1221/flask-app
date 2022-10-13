@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+    <h1>編集画面</h1>
+    <!-- url_for()関数の引数に指定するのは関数 -->
+    <form method="POST" action="{{ url_for('EditBook') }}">
+        <table border="1">
+            <tr>
+                <th>タイトル</th>
+                <th>価格</th>
+                <th>入荷日</th>
+            </tr>
+            <tr>
+            {% for b in book %}
+                <!-- hidden属性により画面上は非表示 -->
+                <input name="id" type="hidden" value="{{ b[0] }}">
+                <td><input name="title" type="text" required value="{{ b[1] }}"></td>
+                <td><input name="price" type="number" required value="{{ b[2] }}">円</td>
+                <td><input name="day" type="text" value="{{ b[3] }}"></td>
+            {% endfor %}
+            </tr>
+        </table>
+        <button type="submit">送信</button>
+    </form>
+</body>
+</html>

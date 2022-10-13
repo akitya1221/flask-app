@@ -4,19 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- hrefにはurl_for関数を記載し、引数にフォルダ名とファイル名を記載する -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>FlaskApp</title>
 </head>
 <body>
-    <h1>Flaskでアプリを作成する</h1>
+    <h1>Flaskで書籍管理アプリを作成する</h1>
     <!-- 辞書booksの要素を1つずつ取り出し、変数bookに代入 -->
+    <table border="1">
+        <tr>
+            <th>編集</th>
+            <th>タイトル</th>
+            <th>価格</th>
+            <th>入荷日</th>
+            <th>削除</th>
+        </tr>
     {% for book in books %}
-        <ul>
-            <li>{{ book.id }}</li>
-            <li>{{ book.title }}</li>
-            <li>{{ book.price }}</li>
-            <li>{{ book.arrival_day }}</li>
-        </ul>
+        <tr>
+            <td><a href="/edit/{{ book.id }}">編集</a></td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.price }}円</td>
+            <td>{{ book.arrival_day }}</td>
+            <td><a href="/delete/{{ book.id }}">✖︎</a></td>
+        </tr>
     {% endfor %}
-    <a href="{{ url_for('form') }}">フォーム画面</a>
+    </table>
+    <a href="{{ url_for('form') }}"><button>書籍登録</button></a>
 </body>
 </html>

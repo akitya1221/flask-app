@@ -1,3 +1,7 @@
+from crypt import methods
+from operator import methodcaller
+from re import A
+from wsgiref.util import request_uri
 from flaskr import app
 from flask import render_template, request, redirect, url_for
 import mysql.connector
@@ -22,6 +26,7 @@ def index():
     cursor = conn.cursor() #カーソルを作成
     cursor.execute(sql)
     rows = cursor.fetchall() 
+    print('rowsの中身：%s' % rows)
     conn.close()
     
     # 辞書を作成
@@ -48,14 +53,85 @@ def add():
     price = request.form['price']
     arrival_day = request.form['day']
     
+    # arrival_dayが入力されなかった場合の処理
+    if len(arrival_day) == 0:
+        arrival_day = '未定'
+    else:
+        pass
+    
     # 「%s」を使用することにより、変数を文字列に入れ込むことができる
-    sql = "INSERT INTO books VALUES (0, %s, %s, %s)"
+    insert_book = 'INSERT INTO books VALUES (0, %s, %s, %s)'
     
     conn = conn_db() #DBに接続
     cursor = conn.cursor()  
-    cursor.execute(sql, (title, price, arrival_day))
+    cursor.execute(insert_book, (title, price, arrival_day))
     conn.commit()
     conn.close()
     
     # 登録後、index画面へリダイレクトする
+    return redirect(url_for('index'))
+
+# DELETE処理
+# <型:変数名>と記載することで、パスパラメーターを取得することができる
+@app.route('/delete/<int:book_id>', methods=['GET'])
+def DeletBook(book_id):
+    print('受け取ったID：%s' % book_id)
+    
+    sql = 'DELETE FROM books WHERE id = %s' % book_id
+    
+    conn = conn_db()
+    cursor = conn.cursor()  
+    cursor.execute(sql)
+    conn.commit()
+    conn.close()
+    
+    return redirect(url_for('index'))
+
+# 編集画面の処理
+# booksテーブルのidを元にSELECTし、結果を画面に表示する。
+@app.route('/edit/<int:book_id>', methods=['GET'])
+def SelectBook(book_id):
+    print('受け取ったID:%s' % book_id)
+    
+    # PRIMARY KEYで条件を絞っているため、抽出されるのは1件
+    select_book = 'SELECT * FROM books WHERE id = %s' % book_id
+    
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(select_book)
+    # fetchall()関数にて、テーブルの各カラムを取得
+    row = cursor.fetchall() 
+    print('rowsの中身：%s' % row)
+    conn.close()
+        
+    return render_template('edit.html', book=row)
+
+# UPDATE処理(2)
+@app.route('/EditBook', methods=['POST'])
+def EditBook():
+    
+    print('EditBookが呼び出されました！')
+    
+    book_id = request.form['id']
+    title = request.form['title']
+    price = request.form['price']
+    arrival_day = request.form['day']
+    
+    # arrival_dayが入力されなかった場合の処理
+    if len(arrival_day) == 0:
+        arrival_day = '未定'
+    else:
+        pass
+    
+    print('各変数の値：%s : %s : %s : %s :' % (book_id, title, price, arrival_day))
+    
+    update_book = 'UPDATE books SET title = %s, price = %s, arrival_day = %s WHERE id = %s'
+    
+    conn = conn_db() #DBに接続
+    cursor = conn.cursor()  
+    cursor.execute(update_book ,(title, price, arrival_day, book_id))
+    conn.commit()
+    # commit()関数を忘れないこと！
+    conn.close()
+    
     return redirect(url_for('index'))

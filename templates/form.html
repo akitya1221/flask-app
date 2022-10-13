@@ -9,13 +9,19 @@
 <body>
     <h1>Form</h1>
     <form method="POST" action="{{ url_for('add') }}">
-        <label>タイトル</label><br>
-        <input type="text" name="title"><br>
-        <label>価格</label><br>
-        <input type="number" name="price"><br>
-        <label>入荷日</label><br>
-        <input type="text" name="day"><br>
-        <input type="submit" value="新規登録">
+        <table border="1">
+            <tr>
+                <th>タイトル</th>
+                <th>価格</th>
+                <th>入荷日</th>
+            </tr>
+            <tr>
+                <td><input type="text" name="title" required></td>
+                <td><input type="number" name="price" required></td>
+                <td><input type="text" name="day" required></td>
+            </tr>
+        </table>
+        <button type="submit">新規登録</button>
     </form>
 </body>
 </html>

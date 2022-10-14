@@ -49,6 +49,7 @@ def form():
 @app.route('/add', methods=['POST'])  
 def add():
     # 画面から入力された値を変数に代入する[name]
+    category = request.form['category']
     title = request.form['title']
     price = request.form['price']
     arrival_day = request.form['day']
@@ -60,11 +61,11 @@ def add():
         pass
     
     # 「%s」を使用することにより、変数を文字列に入れ込むことができる
-    insert_book = 'INSERT INTO books VALUES (0, %s, %s, %s)'
+    insert_book = 'INSERT INTO books VALUES (0, %s, %s, %s, %s)'
     
     conn = conn_db() #DBに接続
     cursor = conn.cursor()  
-    cursor.execute(insert_book, (title, price, arrival_day))
+    cursor.execute(insert_book, (title, price, arrival_day, category))
     conn.commit()
     conn.close()
     
@@ -112,6 +113,7 @@ def EditBook():
     
     print('EditBookが呼び出されました！')
     
+    category = request.form['category']
     book_id = request.form['id']
     title = request.form['title']
     price = request.form['price']
@@ -122,14 +124,12 @@ def EditBook():
         arrival_day = '未定'
     else:
         pass
-    
-    print('各変数の値：%s : %s : %s : %s :' % (book_id, title, price, arrival_day))
-    
-    update_book = 'UPDATE books SET title = %s, price = %s, arrival_day = %s WHERE id = %s'
+        
+    update_book = 'UPDATE books SET title = %s, price = %s, arrival_day = %s, category_id = %s WHERE id = %s'
     
     conn = conn_db() #DBに接続
     cursor = conn.cursor()  
-    cursor.execute(update_book ,(title, price, arrival_day, book_id))
+    cursor.execute(update_book ,(title, price, arrival_day, category, book_id))
     conn.commit()
     # commit()関数を忘れないこと！
     conn.close()

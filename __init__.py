@@ -1,4 +1,5 @@
 from flask import Flask
 app = Flask(__name__)
-# main.pyをインポート
-import flaskr.main
+# 同じディレクトリ内のモジュールのimportはパッケージ名から書いた方がいい。
+# import (パッケージ名).(モジュール名)
+import flaskr.main #main.pyを追加

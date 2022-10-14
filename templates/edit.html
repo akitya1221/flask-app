@@ -12,6 +12,7 @@
     <form method="POST" action="{{ url_for('EditBook') }}">
         <table border="1">
             <tr>
+                <th>カテゴリー区分</th>
                 <th>タイトル</th>
                 <th>価格</th>
                 <th>入荷日</th>
@@ -20,13 +21,23 @@
             {% for b in book %}
                 <!-- hidden属性により画面上は非表示 -->
                 <input name="id" type="hidden" value="{{ b[0] }}">
+                <td><input name="category" type="number" min="1" max="6" value="{{ b[4] }}"></td>
                 <td><input name="title" type="text" required value="{{ b[1] }}"></td>
                 <td><input name="price" type="number" required value="{{ b[2] }}">円</td>
-                <td><input name="day" type="text" value="{{ b[3] }}"></td>
+                <td><input name="day" type="text" value="{{ b[3] }}" placeholder="YYYY-MM-DDの形式で入力してください。"></td>
             {% endfor %}
             </tr>
         </table>
         <button type="submit">送信</button>
     </form>
+    <h3>カテゴリー区分</h3>
+    <ul>
+        <li>1：文学・文芸</li>
+        <li>2：ビジネス</li>
+        <li>3：趣味・実用</li>
+        <li>4：専門書</li>
+        <li>5：コミック</li>
+        <li>6：絵本・児童書</li>
+    </ul>
 </body>
 </html>

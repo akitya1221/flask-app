@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <h1>検索結果</h1>
+    <table border="1">
+    <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>価格</th>
+    </tr>
+    {% for b in result_book %}
+    <tr>
+        <td>{{ b.id }}</td>
+        <td>{{ b.title }}</td>
+        <td>{{ b.price }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}"><button>戻る</button></a>
+</body>
+</html>

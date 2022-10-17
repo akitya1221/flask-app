@@ -1,6 +1,7 @@
 from crypt import methods
 from operator import methodcaller
 from re import A
+from unittest import result
 from wsgiref.util import request_uri
 from flaskr import app
 from flask import render_template, request, redirect, url_for
@@ -26,7 +27,7 @@ def index():
     cursor = conn.cursor() #カーソルを作成
     cursor.execute(sql)
     rows = cursor.fetchall() 
-    print('rowsの中身：%s' % rows)
+    print('index' + 'rowsの中身：%s' % rows)
     conn.close()
     
     # 辞書を作成
@@ -102,10 +103,32 @@ def SelectBook(book_id):
     cursor.execute(select_book)
     # fetchall()関数にて、テーブルの各カラムを取得
     row = cursor.fetchall() 
-    print('rowsの中身：%s' % row)
     conn.close()
         
     return render_template('edit.html', book=row)
+
+#曖昧検索機能
+@app.route('/search', methods=['POST']) 
+def search():
+    
+    text = "'" + '%' + request.form['search-text'] + '%' + "'"
+    test = "'" + request.form['search-text'] + "'"
+    
+    ambiguous = 'SELECT * FROM books WHERE title LIKE %s' % text
+    print('SQL文' + ambiguous)
+    
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(ambiguous)
+    book = cursor.fetchall() 
+    print('bookの中身：%s' % book)
+    conn.close()
+    
+    search_result = []
+    for row in book:
+        search_result.append({'id': row[0], 'title': row[1], 'price': row[2], 'arrival_day': row[3], 'category': row[4]})
+    
+    return render_template('search.html', result_book=search_result)
 
 # UPDATE処理(2)
 @app.route('/EditBook', methods=['POST'])

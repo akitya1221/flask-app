@@ -21,7 +21,7 @@
             {% for b in book %}
                 <!-- hidden属性により画面上は非表示 -->
                 <input name="id" type="hidden" value="{{ b[0] }}">
-                <td><input name="category" type="number" min="1" max="6" value="{{ b[4] }}"></td>
+                <td><input name="category" type="number" required min="1" max="6" value="{{ b[4] }}"></td>
                 <td><input name="title" type="text" required value="{{ b[1] }}"></td>
                 <td><input name="price" type="number" required value="{{ b[2] }}">円</td>
                 <td><input name="day" type="text" value="{{ b[3] }}" placeholder="YYYY-MM-DDの形式で入力してください。"></td>

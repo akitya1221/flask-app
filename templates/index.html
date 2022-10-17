@@ -10,7 +10,12 @@
 </head>
 <body>
     <h1>Flaskで書籍管理アプリを作成する</h1>
-    <!-- 辞書booksの要素を1つずつ取り出し、変数bookに代入 -->
+    <div class="search-form">
+        <form method="POST" action="{{ url_for('search') }}">
+            <input name="search-text" type="text" placeholder="本のタイトルを入力してください">
+            <button type="submit">検索</button>
+        </form>
+    </div>
     <table border="1">
         <tr>
             <th>編集</th>
@@ -19,6 +24,7 @@
             <th>入荷日</th>
             <th>削除</th>
         </tr>
+    <!-- 辞書booksの要素を1つずつ取り出し、変数bookに代入 -->
     {% for book in books %}
         <tr>
             <td><a href="/edit/{{ book.id }}">編集</a></td>

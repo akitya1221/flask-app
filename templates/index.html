@@ -19,6 +19,7 @@
     <table border="1">
         <tr>
             <th>編集</th>
+            <th>カテゴリー</th>
             <th>タイトル</th>
             <th>価格</th>
             <th>入荷日</th>
@@ -28,6 +29,7 @@
     {% for book in books %}
         <tr>
             <td><a href="/edit/{{ book.id }}">編集</a></td>
+            <td>{{ book.category_name }}</td>
             <td>{{ book.title }}</td>
             <td>{{ book.price }}円</td>
             <td>{{ book.arrival_day }}</td>

@@ -17,22 +17,21 @@
                 <th>入荷日</th>
             </tr>
             <tr>
-                <td><input type="number" name="category" min="1" max="6"></td>
+                <td>
+                    <select name="category">
+                    {% for t in category %}
+                        <option value="{{ t[0] }}">{{ t[0] }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
                 <td><input type="text" name="title" required></td>
                 <td><input type="number" name="price" required></td>
                 <td><input type="text" name="day" placeholder="YYYY-MM-DDの形式で入力してください。"></td>
             </tr>
         </table>
-        <button type="submit">新規登録</button>
+        <p>※入荷日が空欄の場合は、「未定」で登録されます。</p>
+        <button type="submit">登録</button>
     </form>
-    <h3>カテゴリー区分</h3>
-    <ul>
-        <li>1：文学・文芸</li>
-        <li>2：ビジネス</li>
-        <li>3：趣味・実用</li>
-        <li>4：専門書</li>
-        <li>5：コミック</li>
-        <li>6：絵本・児童書</li>
-    </ul>
+    <a href="{{ url_for('index') }}"><button>戻る</button></a>
 </body>
 </html>
